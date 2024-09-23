@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Receiver</title>
+</head>
+<body>
+    <h1>Waiting for Input...</h1>
+    <p id="receivedText">No text received yet.</p>
+
+    <script>
+        // Function to send text to Roblox via a web API
+        async function sendTextToRoblox(text) {
+            const response = await fetch('https://roblox-api-url.com/send-to-roblox', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ text: text }),
+            });
+
+            const result = await response.json();
+            console.log('Roblox Response:', result);
+        }
+
+        // This script listens for input from your C++ program via an HTTP request
+        // Simulating the received data as an example:
+        const urlParams = new URLSearchParams(window.location.search);
+        const receivedText = urlParams.get('text');
+
+        if (receivedText) {
+            document.getElementById('receivedText').innerText = receivedText;
+            // Send the received text to Roblox
+            sendTextToRoblox(receivedText);
+        } else {
+            console.log("No text received from C++ program");
+        }
+    </script>
+</body>
+</html>
